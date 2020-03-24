@@ -1,6 +1,7 @@
 package com.gavilan.springbootbackendapirest.models.services;
 
 import com.gavilan.springbootbackendapirest.models.entity.Cliente;
+import com.gavilan.springbootbackendapirest.models.entity.Factura;
 import com.gavilan.springbootbackendapirest.models.entity.Region;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,10 @@ public interface IClienteService {
     public Cliente findById(Long id);
 
     public List<Region> findAllRegiones();
+
+    public Factura findFacturaById(Long id);
+
+    public Factura saveFactura(Factura factura);
+
+    public void deleteFactura(Long id);
 }

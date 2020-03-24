@@ -21,7 +21,7 @@ public class Cliente implements Serializable {
     private Long id;
 
     @NotEmpty
-    @Size(min = 4, max = 12)
+    @Size(min = 3, max = 12)
     @Column(nullable = false)
     private String nombre;
 
@@ -46,6 +46,7 @@ public class Cliente implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Region region;
 
+    @JsonIgnoreProperties({"cliente", "hibernateLazyInitializer", "handler"})
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Factura> facturas;
 

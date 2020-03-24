@@ -1,7 +1,9 @@
 package com.gavilan.springbootbackendapirest.models.services;
 
 import com.gavilan.springbootbackendapirest.models.dao.IClienteDao;
+import com.gavilan.springbootbackendapirest.models.dao.IFacturaDao;
 import com.gavilan.springbootbackendapirest.models.entity.Cliente;
+import com.gavilan.springbootbackendapirest.models.entity.Factura;
 import com.gavilan.springbootbackendapirest.models.entity.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,10 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Autowired
     private IClienteDao clienteDao;
+
+    @Autowired
+    private IFacturaDao facturaDao;
+
     @Override
     @Transactional(readOnly = true)
     public List<Cliente> findAll() {
@@ -49,5 +55,23 @@ public class ClienteServiceImpl implements IClienteService {
     @Transactional(readOnly = true)
     public List<Region> findAllRegiones() {
         return clienteDao.findAllRegiones();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Factura findFacturaById(Long id) {
+        return this.facturaDao.findById(id).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public Factura saveFactura(Factura factura) {
+        return this.facturaDao.save(factura);
+    }
+
+    @Override
+    @Transactional
+    public void deleteFactura(Long id) {
+        this.facturaDao.deleteById(id);
     }
 }
