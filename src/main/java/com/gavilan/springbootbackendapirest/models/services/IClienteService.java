@@ -2,6 +2,7 @@ package com.gavilan.springbootbackendapirest.models.services;
 
 import com.gavilan.springbootbackendapirest.models.entity.Cliente;
 import com.gavilan.springbootbackendapirest.models.entity.Factura;
+import com.gavilan.springbootbackendapirest.models.entity.Producto;
 import com.gavilan.springbootbackendapirest.models.entity.Region;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,5 +26,7 @@ public interface IClienteService {
 
     public Factura saveFactura(Factura factura);
 
-    public void deleteFactura(Long id);
+    public void deleteFacturaById(Long id);
+
+    public List<Producto> findProductoByNombre(String termino);
 }
