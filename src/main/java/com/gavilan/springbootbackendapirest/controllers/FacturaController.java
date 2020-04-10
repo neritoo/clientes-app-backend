@@ -21,28 +21,28 @@ public class FacturaController {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/facturas/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Factura show(@PathVariable Long id){
+    public Factura show(@PathVariable Long id) {
         return this.clienteService.findFacturaById(id);
     }
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/facturas")
     @ResponseStatus(HttpStatus.CREATED)
-    public Factura crear(@RequestBody Factura factura){
+    public Factura crear(@RequestBody Factura factura) {
         return this.clienteService.saveFactura(factura);
     }
 
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/facturas/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         this.clienteService.deleteFacturaById(id);
     }
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/facturas/buscar-productos/{term}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Producto> buscarProductos(@PathVariable String term){
+    public List<Producto> buscarProductos(@PathVariable String term) {
         return this.clienteService.findProductoByNombre(term);
     }
 

@@ -29,15 +29,15 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioDao.findByUsername(username);
 
-        if (usuario == null){
+        if (usuario == null) {
             logger.error("Error: no existe el usuario " + username + " en el sistema.");
             throw new UsernameNotFoundException("Error: no existe el usuario " + username + " en el sistema.");
         }
 
         List<GrantedAuthority> roles = usuario.getRoles()
                 .stream()
-                .map( rol -> new SimpleGrantedAuthority(rol.getNombre()))
-                .peek(authority -> logger.info("Rol: "+ authority.getAuthority()))
+                .map(rol -> new SimpleGrantedAuthority(rol.getNombre()))
+                .peek(authority -> logger.info("Rol: " + authority.getAuthority()))
                 .collect(Collectors.toList());
         return new User(usuario.getUsername(), usuario.getPassword(), usuario.isEnabled(), true, true, true, roles);
     }

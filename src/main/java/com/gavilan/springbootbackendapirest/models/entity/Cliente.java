@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="clientes")
+@Table(name = "clientes")
 public class Cliente implements Serializable {
 
     @Id
@@ -46,11 +46,11 @@ public class Cliente implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Region region;
 
-    @JsonIgnoreProperties(value={"cliente", "hibernateLazyInitializer", "handler"}, allowSetters = true)
+    @JsonIgnoreProperties(value = {"cliente", "hibernateLazyInitializer", "handler"}, allowSetters = true)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Factura> facturas;
 
-    public Cliente(){
+    public Cliente() {
         this.facturas = new ArrayList<>();
     }
 
@@ -137,6 +137,6 @@ public class Cliente implements Serializable {
                 '}';
     }
 
-    private static final long serialVersionUID= 1L;
+    private static final long serialVersionUID = 1L;
 
 }

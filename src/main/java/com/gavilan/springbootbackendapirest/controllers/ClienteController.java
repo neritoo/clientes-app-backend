@@ -37,31 +37,31 @@ public class ClienteController {
     private IUploadFileService uploadService;
 
     @GetMapping("/clientes")
-    public List<Cliente> index(){
+    public List<Cliente> index() {
         return clienteService.findAll();
     }
 
     @GetMapping("/clientes/page/{page}")
-    public Page<Cliente> index(@PathVariable Integer page){
+    public Page<Cliente> index(@PathVariable Integer page) {
         Pageable pageable = PageRequest.of(page, 4);
         return clienteService.findAll(pageable);
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/clientes/{id}")
-    public ResponseEntity<?> show(@PathVariable Long id){
+    public ResponseEntity<?> show(@PathVariable Long id) {
         Cliente cliente = null;
         Map<String, Object> response = new HashMap<>();
-        try{
+        try {
             cliente = clienteService.findById(id);
 
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos.");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        if (cliente==null){
+        if (cliente == null) {
             response.put("mensaje", "El cliente ID: ".concat(id.toString()).concat(" no existe en la base de datos"));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
         }
@@ -70,12 +70,12 @@ public class ClienteController {
 
     @Secured("ROLE_ADMIN")
     @PostMapping("/clientes")
-    public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result){
+    public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
 
         Cliente clienteNuevo = null;
         Map<String, Object> response = new HashMap<>();
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             /*List<String> errors = new ArrayList<>();
             for (FieldError err: result.getFieldErrors()){
                 errors.add("El campo '" + err.getField() + "' " + err.getDefaultMessage());
@@ -88,7 +88,7 @@ public class ClienteController {
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
         }
 
-        try{
+        try {
             clienteNuevo = clienteService.save(cliente);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos.");
@@ -102,12 +102,12 @@ public class ClienteController {
 
     @Secured("ROLE_ADMIN")
     @PutMapping("/clientes/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result ,@PathVariable Long id){
+    public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
         Cliente clienteActual = clienteService.findById(id);
         Cliente clienteActualizado = null;
         Map<String, Object> response = new HashMap<>();
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             List<String> errors = result.getFieldErrors()
                     .stream()
                     .map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
@@ -116,12 +116,12 @@ public class ClienteController {
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
         }
 
-        if (clienteActual == null){
+        if (clienteActual == null) {
             response.put("mensaje", "Error: No se pudo editar, el cliente de ID: " + id.toString() + " no existe en la base de datos.");
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
         }
 
-        try{
+        try {
             clienteActual.setNombre(cliente.getNombre());
             clienteActual.setApellido(cliente.getApellido());
             clienteActual.setEmail(cliente.getEmail());
@@ -129,7 +129,7 @@ public class ClienteController {
             clienteActual.setRegion(cliente.getRegion());
 
             clienteActualizado = clienteService.save(clienteActual);
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             response.put("mensaje", "Error al actualizar en la base de datos.");
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -143,17 +143,17 @@ public class ClienteController {
     @Secured("ROLE_ADMIN")
     @DeleteMapping("/clientes/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
 
-        try{
+        try {
             Cliente cliente = this.clienteService.findById(id);
             String fotoAnterior = cliente.getFoto();
 
             this.uploadService.eliminar(fotoAnterior);
 
             clienteService.delete(id);
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             response.put("mensaje", "Error al eliminar en la base de datos.");
             response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -164,14 +164,14 @@ public class ClienteController {
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/clientes/upload")
-    public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id){
+    public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
         Map<String, Object> response = new HashMap<>();
         Cliente cliente = this.clienteService.findById(id);
-        if (!archivo.isEmpty()){
+        if (!archivo.isEmpty()) {
             String nombreArchivo = null;
-            try{
-               nombreArchivo = uploadService.copiar(archivo);
-            } catch (IOException e){
+            try {
+                nombreArchivo = uploadService.copiar(archivo);
+            } catch (IOException e) {
                 response.put("mensaje", "Error al subir la imagen del cliente.");
                 response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
                 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -190,7 +190,7 @@ public class ClienteController {
     }
 
     @GetMapping("/uploads/img/{nombreFoto:.+}")
-    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
+    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
 
         Resource recurso = null;
 
@@ -208,7 +208,7 @@ public class ClienteController {
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/clientes/regiones")
-    public List<Region> listarRegiones(){
+    public List<Region> listarRegiones() {
         return clienteService.findAllRegiones();
     }
 

@@ -16,12 +16,12 @@ public class Producto implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
 
-    public Producto(){
+    public Producto() {
 
     }
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.fechaCreacion = new Date();
     }
 

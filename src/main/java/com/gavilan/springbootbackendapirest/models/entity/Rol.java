@@ -29,5 +29,5 @@ public class Rol implements Serializable {
         this.nombre = nombre;
     }
 
-    private final static long serialVersionUID= 1L;
+    private final static long serialVersionUID = 1L;
 }

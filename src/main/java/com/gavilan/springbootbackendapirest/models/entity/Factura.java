@@ -27,12 +27,12 @@ public class Factura implements Serializable {
     @JoinColumn(name = "factura_id")
     private List<DetalleFactura> detalles;
 
-    public Factura(){
+    public Factura() {
         this.detalles = new ArrayList<>();
     }
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.fechaCreacion = new Date();
     }
 
@@ -84,15 +84,15 @@ public class Factura implements Serializable {
         this.detalles = detalles;
     }
 
-    public Double calcularTotal(){
+    public Double calcularTotal() {
         Double total = 0.00;
-        for (DetalleFactura detalle: this.detalles) {
+        for (DetalleFactura detalle : this.detalles) {
             total += detalle.calcularImporte();
         }
         return total;
     }
 
-    public Double getTotal(){
+    public Double getTotal() {
         return this.calcularTotal();
     }
 

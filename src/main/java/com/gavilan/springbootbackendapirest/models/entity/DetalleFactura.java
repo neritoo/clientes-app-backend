@@ -44,11 +44,11 @@ public class DetalleFactura implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Double calcularImporte(){
+    public Double calcularImporte() {
         return this.cantidad.doubleValue() * this.producto.getPrecio();
     }
 
-    public Double getImporte(){
+    public Double getImporte() {
         return this.calcularImporte();
     }
 

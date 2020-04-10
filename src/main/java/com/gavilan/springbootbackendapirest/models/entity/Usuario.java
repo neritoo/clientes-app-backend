@@ -93,5 +93,5 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
-    private final static long serialVersionUID= 1L;
+    private final static long serialVersionUID = 1L;
 }

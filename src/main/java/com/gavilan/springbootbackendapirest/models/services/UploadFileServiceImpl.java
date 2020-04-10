@@ -4,6 +4,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -29,7 +30,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
 
         Resource recurso = recurso = new UrlResource(rutaFoto.toUri());
 
-        if (!recurso.exists() && !recurso.isReadable()){
+        if (!recurso.exists() && !recurso.isReadable()) {
             rutaFoto = Paths.get("src/main/resources/static/images").resolve("not_user.png").toAbsolutePath();
             recurso = new UrlResource(rutaFoto.toUri());
 
@@ -41,7 +42,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
 
     @Override
     public String copiar(MultipartFile archivo) throws IOException {
-        String nombreArchivo = UUID.randomUUID().toString()+ "_" + archivo.getOriginalFilename().replace(" ", "");
+        String nombreArchivo = UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace(" ", "");
 
         Path rutaArchivo = this.getPath(nombreArchivo);
         log.info(rutaArchivo.toString());
@@ -53,10 +54,10 @@ public class UploadFileServiceImpl implements IUploadFileService {
 
     @Override
     public boolean eliminar(String nombreFoto) {
-        if (nombreFoto != null && nombreFoto.length()>0){
+        if (nombreFoto != null && nombreFoto.length() > 0) {
             Path rutaFotoAnterior = this.getPath(nombreFoto);
             File archivoFotoAnterior = rutaFotoAnterior.toFile();
-            if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()){
+            if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
                 return archivoFotoAnterior.delete();
             }
         }
